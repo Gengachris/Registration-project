@@ -39,6 +39,9 @@ jobs:
           key: ${{ secrets.SSH_DEPLOY_KEY }}
           script: |
             cd /opt/registration-app
+            # Pull latest app image
             docker compose -f mongo.yaml pull registration-app
-            docker compose -f mongo.yaml up -d --force-recreate --no-deps registration-app
+            # Start/update all services (mongo, mongo-express, registration-app)
+            docker compose -f mongo.yaml up -d
+            # Clean up old images
             docker image prune -f
