@@ -24,6 +24,9 @@ let mongoUrlLocal = "mongodb://admin:password@localhost:27017/?authSource=admin"
 // use when starting application as docker container
 let mongoUrlDocker = "mongodb://admin:password@mongo:27017/?authSource=admin";
 
+// Auto-detect environment: use 'mongo' hostname if in Docker, otherwise 'localhost'
+let mongoUrl = process.env.NODE_ENV === 'production' ? mongoUrlDocker : mongoUrlLocal;
+
 // pass these options to mongo client connect request
 let mongoClientOptions = {
   serverSelectionTimeoutMS: 5000,
@@ -50,7 +53,7 @@ app.post('/api/auth/register', async function (req, res) {
 
   try {
     // Connect to MongoDB
-    client = await MongoClient.connect(mongoUrlDocker, mongoClientOptions);
+    client = await MongoClient.connect(mongoUrl, mongoClientOptions);
     // console.log('Connected to MongoDB for registration');
 
     let db = client.db(databaseName);
@@ -109,12 +112,12 @@ app.post('/api/auth/register', async function (req, res) {
 app.post('/api/auth/login', async function (req, res) {
   console.log('Login request received:', req.body);
   let loginData = req.body;
-  
+
   let client;
 
   try {
     // Connect to MongoDB
-    client = await MongoClient.connect(mongoUrlDocker, mongoClientOptions);
+    client = await MongoClient.connect(mongoUrl, mongoClientOptions);
     // console.log('Connected to MongoDB for login');
 
     let db = client.db(databaseName);

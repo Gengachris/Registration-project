@@ -8,8 +8,8 @@ const connectDB = async () => {
             useUnifiedTopology: true
         };
 
-        // Use Docker MongoDB URL if in Docker environment, otherwise use local
-        const mongoUrl = process.env.MONGODB_URI || 'mongodb://localhost:27017/studentauthdb';
+        // Use Docker MongoDB URL if in Docker environment, otherwise use local with auth
+        const mongoUrl = process.env.MONGODB_URI || 'mongodb://admin:password@localhost:27017/studentauthdb?authSource=admin';
 
         const conn = await mongoose.connect(mongoUrl, mongoClientOptions);
         console.log(`MongoDB Connected: ${conn.connection.host}`);
