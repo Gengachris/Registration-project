@@ -1,7 +1,8 @@
 FROM node:18-alpine
 
 ENV MONGO_DB_USERNAME=admin \
-    MONGO_DB_PWD=password
+    MONGO_DB_PWD=password \
+    NODE_ENV=production
 
 WORKDIR /home/app
 

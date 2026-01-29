@@ -39,6 +39,6 @@ jobs:
           key: ${{ secrets.SSH_DEPLOY_KEY }}
           script: |
             cd /opt/registration-app
-            docker compose -f mongo.yaml pull
-            docker compose -f mongo.yaml up -d
+            docker compose -f mongo.yaml pull registration-app
+            docker compose -f mongo.yaml up -d --force-recreate --no-deps registration-app
             docker image prune -f

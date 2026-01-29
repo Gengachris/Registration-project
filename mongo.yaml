@@ -2,7 +2,7 @@
 version: '3.8'
 services:
  registration-app:
-   image: gengachris24/registration-app:1.2
+   image: gengachris24/registration-app:latest
    ports:
       - 5000:5000
 
