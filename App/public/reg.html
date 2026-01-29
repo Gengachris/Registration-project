@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="form-box">
+      <h2>Create Account</h2>
+      <form id="registerForm">
+        <div class="input-group">
+          <input type="text" id="fullName" placeholder="Full Name" required />
+        </div>
+
+        <div class="input-group">
+          <input type="text" id="residence" placeholder="Residence" required />
+        </div>
+
+        <div class="input-group">
+          <input type="text" id="phone" placeholder="Phone Number" required />
+        </div>
+
+        <div class="input-group">
+          <label>Level of Study:</label>
+          <select id="level" required>
+            <option value="">Select Level</option>
+            <option value="High School">High School</option>
+            <option value="Diploma">Diploma</option>
+            <option value="Bachelor">Bachelor</option>
+            <option value="Masters">Masters</option>
+            <option value="PhD">PhD</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Sex:</label>
+          <div class="radio-group">
+            <label><input type="radio" name="sex" value="Male" required /> Male</label>
+            <label><input type="radio" name="sex" value="Female" required /> Female</label>
+          </div>
+        </div>
+
+        <div class="input-group">
+          <input type="email" id="registerEmail" placeholder="Email" required />
+        </div>
+
+        <div class="input-group">
+          <input type="password" id="registerPassword" placeholder="Password" required />
+        </div>
+
+        <button type="submit" class="btn">CREATE ACCOUNT</button>
+      </form>
+      <div class="footer">
+        Already have an account? <a href="login.html">Login</a>
+      </div>
+    </div>
+  </div>
+  <script src="js/reg.js"></script>
+</body>
+
+</html>

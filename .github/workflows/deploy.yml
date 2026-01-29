@@ -1,0 +1,44 @@
+name: CI/CD Docker Deployment
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  build-push-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/registration-app:latest .
+          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/registration-app:latest ${{ secrets.DOCKERHUB_USERNAME }}/registration-app:${{ github.sha }}
+
+      - name: Push Docker image
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/registration-app:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/registration-app:${{ github.sha }}
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          port: ${{ secrets.DEPLOY_PORT }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.SSH_DEPLOY_KEY }}
+          script: |
+            cd /opt/registration-app
+            docker compose -f mongo.yaml pull
+            docker compose -f mongo.yaml up -d
+            docker image prune -f
